@@ -1,0 +1,84 @@
+# ============================================================
+# Hospital AI Assistant — Git ignore rules
+# Keep source code, frontend assets and .env.example in Git.
+# Never publish API keys, patient databases or hospital records.
+# ============================================================
+
+# Private environment files and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+
+# Python virtual environments and compiled files
+.venv/
+venv/
+myenv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+
+# Local SQLite databases and transaction files
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+
+# Database backups, exported patient data and local storage
+backups/
+backup/
+*.bak
+*.backup
+uploads/
+storage/
+backend/data/
+exports/
+
+# Generated RAG / vector store data (keep source documents in sample_data/)
+chroma_db/
+.chroma/
+vector_store/
+faiss_index/
+*.faiss
+backend/rag_*eval*.json
+
+# Logs and temporary files
+*.log
+logs/
+*.tmp
+*.temp
+*.swp
+*.swo
+*.pid
+
+# Frontend dependencies and generated build assets
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Notes: Do not ignore backend/.env.example, README, requirements,
+# frontend HTML/CSS/JS, app source, tests or sample_data.

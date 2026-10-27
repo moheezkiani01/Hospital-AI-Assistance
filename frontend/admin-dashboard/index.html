@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0c1831">
+    <meta name="description" content="Hospital AI operations center: appointments, doctors, patients, analytics and care management.">
+    <title>Overview | Hospital AI Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-shell">
+        <aside class="sidebar" id="admin-sidebar" aria-label="Primary navigation">
+            <div class="brand-box">
+                <div class="brand-icon" aria-hidden="true"><span data-icon="heart-pulse"></span></div>
+                <div class="brand-copy"><h2>hospital<span>ai</span><span class="brand-dot">.</span></h2><p>HOSPITAL AI SUITE</p></div>
+                <button class="icon-btn sidebar-close" id="sidebar-close" type="button" aria-label="Close navigation"><span data-icon="x"></span></button>
+            </div>
+            <div class="workspace-switcher">
+                <div class="workspace-avatar" data-icon="building-2"></div>
+                <div class="workspace-copy"><strong>Hospital workspace</strong><small>Management console</small></div>
+                <span data-icon="chevrons-up-down" class="workspace-chevrons"></span>
+            </div>
+            <nav class="sidebar-menu" id="admin-nav">
+                <p class="nav-label">WORKSPACE</p>
+                <a class="active" href="#dashboard" data-icon="layout-dashboard"><span>Overview</span></a>
+                <a href="#appointments" data-icon="calendar-days"><span>Appointments</span></a>
+                <a href="#doctors" data-icon="stethoscope"><span>Doctors & schedules</span></a>
+                <a href="#patients" data-icon="users"><span>Patients</span></a>
+                <p class="nav-label">AI & INSIGHTS</p>
+                <a href="#chat" data-icon="messages-square"><span>Chat conversations</span></a>
+                <a href="#feedback" data-icon="message-circle-heart"><span>Patient feedback</span></a>
+                <a href="#unanswered-questions" data-icon="help-circle"><span>Unanswered queries</span></a>
+                <a href="#faqs" data-icon="book-open"><span>FAQs</span></a>
+                <a href="#documents" data-icon="files"><span>Knowledge library</span></a>
+                <p class="nav-label">HOSPITAL OPERATIONS</p>
+                <a href="#departments" data-icon="network"><span>Departments</span></a>
+                <a href="#services" data-icon="layers-3"><span>Services</span></a>
+                <a href="#lab-tests" data-icon="flask-conical"><span>Laboratory</span></a>
+                <a href="#emergency-contacts" data-icon="shield-alert"><span>Emergency contacts</span></a>
+                <a href="#patient-leads" data-icon="headset"><span>Support requests</span></a>
+            </nav>
+            <div class="sidebar-bottom">
+                <div class="sidebar-bottom-icon" data-icon="shield-check"></div>
+                <div><strong>Protected workspace</strong><span>Access controlled by your hospital</span></div>
+            </div>
+        </aside>
+        <div class="sidebar-overlay" id="sidebar-overlay" hidden></div>
+        <main class="main-content" id="main-content">
+            <div class="admin-topbar" id="admin-topbar">
+                <div class="topbar-left"><button class="icon-btn menu-button" type="button" id="sidebar-toggle" aria-label="Open navigation" aria-controls="admin-sidebar" aria-expanded="false"><span data-icon="menu"></span></button>
+                    <span class="breadcrumb">Workspace <span class="breadcrumb-separator">/</span> <strong id="active-page-label">Overview</strong></span>
+                </div>
+                <div class="topbar-right"><label class="topbar-search"><span data-icon="search"></span><input type="search" id="section-search" placeholder="Find a section..." autocomplete="off" aria-label="Find dashboard section"></label>
+                    <a class="portal-link" href="../patient-chat/index.html" target="_blank" rel="noopener"><span data-icon="external-link"></span><span>Patient portal</span></a>
+                    <button class="icon-btn" type="button" id="admin-theme-toggle" title="Toggle theme" aria-label="Toggle dark mode"><span data-icon="moon"></span></button>
+                    <button type="button" class="user-menu" onclick="logout()" title="Sign out"><span class="user-avatar" data-icon="user-round"></span><span>Sign out</span><span data-icon="log-out"></span></button>
+                </div>
+            </div>
+            <section id="login-section" class="login-wrapper">
+                <div class="login-card">
+                    <div class="login-eyebrow"><span data-icon="shield-check"></span> SECURE ADMIN ACCESS</div>
+                    <div class="login-logo"><span data-icon="heart-pulse"></span></div>
+                    <h1>Welcome back</h1>
+                    <p class="muted-text">Sign in to your care operations workspace to manage patients, clinicians and AI activity.</p>
+
+                    <label class="field-label" for="email">Work email</label>
+                    <input type="email" id="email" placeholder="name@hospital.com" autocomplete="username">
+                    <label class="field-label" for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+
+                    <button onclick="login()" class="primary-btn full-btn login-submit"><span>Sign in to dashboard</span><span data-icon="arrow-right"></span></button>
+
+                    <p id="login-message" role="alert"></p>
+                    <p class="login-footnote">Access is limited to authorized hospital team members.</p>
+                </div>
+            </section>
+
+            <section id="dashboard-section" class="hidden">
+                <div class="top-header" id="dashboard">
+                    <div class="hero-copy">
+                        <p class="page-label"><span class="eyebrow-dot"></span> CARE OPERATIONS OVERVIEW</p>
+                        <h1>A clearer view of your hospital.</h1>
+                        <p class="muted-text">Appointments, teams, patient conversations and AI assistance—all in one organized workspace.</p>
+                        <div class="hero-meta"><span data-icon="calendar-days"></span><span id="dashboard-current-date">Today</span><span class="hero-separator"></span><span data-icon="activity"></span> Live data from your hospital</div>
+                    </div>
+                    <div class="hero-art" aria-hidden="true"><div class="hero-art-inner"><span data-icon="heart-pulse"></span></div><div class="hero-ring ring-one"></div><div class="hero-ring ring-two"></div></div>
+                </div>
+                <div class="user-strip">
+                    <div class="user-strip-icon" data-icon="circle-check"></div>
+                    <div><p class="small-label">Signed-in workspace</p><p id="user-info">Loading your hospital profile...</p></div>
+                    <span class="user-strip-end">Authorized access <span data-icon="shield-check"></span></span>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <span class="card-icon" data-icon="stethoscope"></span>
+                        <h3>Doctors</h3>
+                        <p id="total-doctors">0</p>
+                    </div>
+
+                    <div class="summary-card">
+                        <span class="card-icon" data-icon="users"></span>
+                        <h3>Patients</h3>
+                        <p id="total-patients">0</p>
+                    </div>
+
+                    <div class="summary-card">
+                        <span class="card-icon" data-icon="calendar-days"></span>
+                        <h3>All appointments</h3>
+                        <p id="total-appointments">0</p>
+                    </div>
+
+                    <div class="summary-card">
+                        <span class="card-icon" data-icon="calendar-check"></span>
+                        <h3>Confirmed bookings</h3>
+                        <p id="booked-appointments">0</p>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">AI Insights</p>
+                            <h2>Chatbot Analytics</h2>
+                        </div>
+                    </div>
+
+                    <div class="summary-grid compact-grid">
+                        <div class="summary-card analytics-card">
+                            <h3>Total Messages</h3>
+                            <p id="total-chat-messages">0</p>
+                        </div>
+
+                        <div class="summary-card analytics-card">
+                            <h3>Doctor Questions</h3>
+                            <p id="doctor-chat-count">0</p>
+                        </div>
+
+                        <div class="summary-card analytics-card">
+                            <h3>Appointment Requests</h3>
+                            <p id="appointment-chat-count">0</p>
+                        </div>
+
+                        <div class="summary-card analytics-card">
+                            <h3>Medical Safety</h3>
+                            <p id="medical-safety-count">0</p>
+                        </div>
+
+                        <div class="summary-card analytics-card">
+                            <h3>Document Questions</h3>
+                            <p id="document-rag-count">0</p>
+                        </div>
+                    </div>
+                    <div class="activity-insight">
+                        <div class="activity-ring-wrap"><div id="activity-ring" class="activity-ring"><div class="activity-ring-inner"><strong id="activity-total">0</strong><span>messages</span></div></div></div>
+                        <div class="activity-copy"><h3>Conversation breakdown</h3><p>Live distribution of tagged chat topics, based on your hospital logs.</p>
+                            <div class="activity-legend"><span><i class="legend-dot" style="--dot:#5865e8"></i> Doctor questions</span><span><i class="legend-dot" style="--dot:#12a78f"></i> Booking requests</span><span><i class="legend-dot" style="--dot:#f59e65"></i> Medical safety</span><span><i class="legend-dot" style="--dot:#8c77db"></i> Documents</span><span><i class="legend-dot" style="--dot:#dfe5f1"></i> Other</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card" id="feedback">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Chatbot Quality</p>
+                            <h2>Patient Feedback Analytics</h2>
+                        </div>
+
+                        <button onclick="loadChatFeedbacks()" class="secondary-btn">Refresh Feedback</button>
+                    </div>
+
+                    <div class="summary-grid compact-grid">
+                        <div class="summary-card analytics-card">
+                            <h3>Total Feedback</h3>
+                            <p id="total-feedback-count">0</p>
+                        </div>
+
+                        <div class="summary-card analytics-card">
+                            <h3>Helpful</h3>
+                            <p id="helpful-feedback-count">0</p>
+                        </div>
+
+                        <div class="summary-card analytics-card">
+                            <h3>Not Helpful</h3>
+                            <p id="not-helpful-feedback-count">0</p>
+                        </div>
+
+                        <div class="summary-card analytics-card">
+                            <h3>Average Rating</h3>
+                            <p id="average-feedback-rating">0</p>
+                        </div>
+                    </div>
+
+                    <div id="chat-feedback-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card" id="faqs">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Chatbot Knowledge</p>
+                            <h2>FAQ Management</h2>
+                        </div>
+
+                        <button onclick="loadFAQs()" class="secondary-btn">Refresh FAQs</button>
+                    </div>
+
+                    <input type="text" id="faq-question" placeholder="FAQ Question e.g. What are hospital timings?">
+                    <input type="text" id="faq-answer" placeholder="FAQ Answer e.g. Hospital timing is 9 AM to 9 PM">
+                    <input type="text" id="faq-category" placeholder="Category Optional e.g. Timings, Fees, Emergency">
+
+                    <button onclick="createFAQ()" class="primary-btn">Create FAQ</button>
+
+                    <p id="faq-message"></p>
+
+                    <div id="faqs-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card" id="patient-leads">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Reception Requests</p>
+                            <h2>Patient Leads / Support Requests</h2>
+                        </div>
+
+                        <button onclick="loadPatientLeads()" class="secondary-btn">Refresh Leads</button>
+                    </div>
+
+                    <div id="patient-leads-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card" id="unanswered-questions">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Chatbot Improvement</p>
+                            <h2>Unanswered Patient Questions</h2>
+                        </div>
+
+                        <button onclick="loadUnansweredQuestions()" class="secondary-btn">Refresh Questions</button>
+                    </div>
+
+                    <div id="unanswered-questions-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card" id="chat">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Patient Conversations</p>
+                            <h2>Patient Chat Logs</h2>
+                        </div>
+
+                        <button onclick="loadChatLogs()" class="secondary-btn">Refresh Chat Logs</button>
+                    </div>
+
+                    <div id="chat-logs-list" class="table-container"></div>
+                </div>
+
+                <div class="two-column-grid">
+                    <div class="section-card" id="departments">
+                        <div class="section-header">
+                            <div>
+                                <p class="small-label">Hospital Structure</p>
+                                <h2>Create Department</h2>
+                            </div>
+                        </div>
+
+                        <input type="text" id="department-name" placeholder="Department Name e.g. Laboratory">
+                        <input type="text" id="department-description" placeholder="Department Description">
+
+                        <button onclick="createDepartment()" class="primary-btn">Create Department</button>
+
+                        <p id="department-message"></p>
+                    </div>
+
+                    <div class="section-card" id="services">
+                        <div class="section-header">
+                            <div>
+                                <p class="small-label">Hospital Services</p>
+                                <h2>Create Service</h2>
+                            </div>
+                        </div>
+
+                        <input type="number" id="service-department-id" placeholder="Department ID Optional">
+                        <input type="text" id="service-name" placeholder="Service Name e.g. Emergency Service">
+                        <input type="text" id="service-description" placeholder="Service Description">
+
+                        <button onclick="createHospitalService()" class="primary-btn">Create Service</button>
+
+                        <p id="service-message"></p>
+                    </div>
+                </div>
+
+                <div class="section-card" id="lab-tests">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Laboratory</p>
+                            <h2>Create Lab Test</h2>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <input type="number" id="lab-test-department-id" placeholder="Department ID Optional">
+                        <input type="text" id="lab-test-name" placeholder="Lab Test Name e.g. CBC Test">
+                        <input type="number" id="lab-test-price" placeholder="Price e.g. 800">
+                    </div>
+
+                    <div class="form-grid">
+                        <input type="text" id="lab-test-sample-type" placeholder="Sample Type e.g. Blood">
+                        <input type="text" id="lab-test-report-time" placeholder="Report Time e.g. Same day">
+                        <input type="text" id="lab-test-description" placeholder="Description">
+                    </div>
+
+                    <button onclick="createLabTest()" class="primary-btn">Create Lab Test</button>
+
+                    <p id="lab-test-message"></p>
+                </div>
+
+                <div class="section-card" id="emergency-contacts">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Emergency Help</p>
+                            <h2>Create Emergency Contact</h2>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <input type="text" id="emergency-title" placeholder="Title e.g. Emergency Reception">
+                        <input type="text" id="emergency-phone" placeholder="Phone Number e.g. 1122">
+                        <input type="text" id="emergency-type" placeholder="Type e.g. Ambulance, Reception">
+                    </div>
+
+                    <input type="text" id="emergency-description" placeholder="Description">
+
+                    <button onclick="createEmergencyContact()" class="primary-btn">Create Emergency Contact</button>
+
+                    <p id="emergency-message"></p>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Department Records</p>
+                            <h2>Departments</h2>
+                        </div>
+
+                        <button onclick="loadDepartments()" class="secondary-btn">Refresh Departments</button>
+                    </div>
+
+                    <div id="departments-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Service Records</p>
+                            <h2>Hospital Services</h2>
+                        </div>
+
+                        <button onclick="loadHospitalServices()" class="secondary-btn">Refresh Services</button>
+                    </div>
+
+                    <div id="services-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Lab Records</p>
+                            <h2>Lab Tests</h2>
+                        </div>
+
+                        <button onclick="loadLabTests()" class="secondary-btn">Refresh Lab Tests</button>
+                    </div>
+
+                    <div id="lab-tests-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Emergency Records</p>
+                            <h2>Emergency Contacts</h2>
+                        </div>
+
+                        <button onclick="loadEmergencyContacts()" class="secondary-btn">Refresh Emergency Contacts</button>
+                    </div>
+
+                    <div id="emergency-contacts-list" class="table-container"></div>
+                </div>
+
+                <div class="two-column-grid">
+                    <div class="section-card">
+                        <div class="section-header">
+                            <div>
+                                <p class="small-label">RAG Assistant</p>
+                                <h2>Ask Hospital Documents</h2>
+                            </div>
+                        </div>
+
+                        <input type="text" id="rag-question" placeholder="Ask something from uploaded documents">
+
+                        <button onclick="askRagQuestion()" class="primary-btn">Ask Question</button>
+
+                        <div id="rag-answer"></div>
+                    </div>
+
+                    <div class="section-card" id="documents">
+                        <div class="section-header">
+                            <div>
+                                <p class="small-label">Knowledge Base</p>
+                                <h2>Upload Hospital Document</h2>
+                            </div>
+                        </div>
+
+                        <input type="text" id="document-type" placeholder="Document Type e.g. faq, policy, price-list">
+                        <input type="file" id="document-file" accept=".pdf,.docx,.txt">
+
+                        <button onclick="uploadDocument()" class="primary-btn">Upload Document</button>
+
+                        <p id="document-message"></p>
+                    </div>
+                </div>
+
+                <div class="two-column-grid">
+                    <div class="section-card" id="doctors">
+                        <div class="section-header">
+                            <div>
+                                <p class="small-label">Doctor Management</p>
+                                <h2>Create Doctor</h2>
+                            </div>
+                        </div>
+
+                        <input type="text" id="doctor-name" placeholder="Doctor Name">
+                        <input type="text" id="doctor-specialization" placeholder="Specialization">
+                        <input type="number" id="doctor-fee" placeholder="Consultation Fee">
+                        <input type="text" id="doctor-phone" placeholder="Phone Number">
+
+                        <button onclick="createDoctor()" class="primary-btn">Create Doctor</button>
+
+                        <p id="doctor-message"></p>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <div>
+                                <p class="small-label">Doctor Timing</p>
+                                <h2>Create Schedule</h2>
+                            </div>
+                        </div>
+
+                        <input type="number" id="schedule-doctor-id" placeholder="Doctor ID">
+                        <input type="text" id="schedule-day" placeholder="Day e.g. Monday">
+                        <input type="time" id="schedule-start-time">
+                        <input type="time" id="schedule-end-time">
+                        <input type="number" id="schedule-duration" placeholder="Slot Duration Minutes" value="30">
+
+                        <button onclick="createSchedule()" class="primary-btn">Create Schedule</button>
+
+                        <p id="schedule-message"></p>
+                    </div>
+                </div>
+
+                <div class="two-column-grid">
+                    <div class="section-card" id="appointments">
+                        <div class="section-header">
+                            <div>
+                                <p class="small-label">Slot Checking</p>
+                                <h2>Check Available Slots</h2>
+                            </div>
+                        </div>
+
+                        <input type="number" id="slot-doctor-id" placeholder="Doctor ID">
+                        <input type="date" id="slot-date">
+
+                        <button onclick="checkAvailableSlots()" class="primary-btn">Check Slots</button>
+
+                        <div id="slots-list"></div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <div>
+                                <p class="small-label">Manual Booking</p>
+                                <h2>Book Appointment</h2>
+                            </div>
+                        </div>
+
+                        <input type="number" id="appointment-doctor-id" placeholder="Doctor ID">
+                        <input type="number" id="appointment-patient-id" placeholder="Patient ID">
+                        <input type="date" id="appointment-date">
+                        <input type="time" id="appointment-time">
+                        <input type="text" id="appointment-reason" placeholder="Reason">
+
+                        <button onclick="createAppointment()" class="primary-btn">Book Appointment</button>
+
+                        <p id="appointment-message"></p>
+                    </div>
+                </div>
+
+                <div class="section-card" id="patients">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Patient Management</p>
+                            <h2>Create Patient</h2>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <input type="text" id="patient-name" placeholder="Patient Name">
+                        <input type="text" id="patient-phone" placeholder="Phone Number">
+                        <input type="email" id="patient-email" placeholder="Email">
+                    </div>
+
+                    <button onclick="createPatient()" class="primary-btn">Create Patient</button>
+
+                    <p id="patient-message"></p>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Uploaded Files</p>
+                            <h2>Documents</h2>
+                        </div>
+
+                        <button onclick="loadDocuments()" class="secondary-btn">Refresh Documents</button>
+                    </div>
+
+                    <div id="documents-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Doctor Directory</p>
+                            <h2>Doctors</h2>
+                        </div>
+
+                        <button onclick="loadDoctors()" class="secondary-btn">Refresh Doctors</button>
+                    </div>
+
+                    <div id="doctors-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Weekly Timings</p>
+                            <h2>Schedules</h2>
+                        </div>
+
+                        <button onclick="loadSchedules()" class="secondary-btn">Refresh Schedules</button>
+                    </div>
+
+                    <div id="schedules-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Booking Records</p>
+                            <h2>Appointments</h2>
+                        </div>
+
+                        <button onclick="loadAppointments()" class="secondary-btn">Refresh Appointments</button>
+                    </div>
+
+                    <div id="appointments-list" class="table-container"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <p class="small-label">Patient Records</p>
+                            <h2>Patients</h2>
+                        </div>
+
+                        <button onclick="loadPatients()" class="secondary-btn">Refresh Patients</button>
+                    </div>
+
+                    <div id="patients-list" class="table-container"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js?v=401"></script>
+    <script src="ui.js?v=20261027"></script>
+</body>
+</html>

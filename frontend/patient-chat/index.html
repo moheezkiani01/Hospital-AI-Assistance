@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f9fd">
+  <meta name="description" content="Hospital AI Assistant helps with doctor information, hospital services and appointment management.">
+  <title>Patient Assistant | Hospital AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="patient-app">
+    <aside class="patient-sidebar" id="patient-sidebar" aria-label="Patient tools navigation">
+      <a class="patient-brand" href="#" aria-label="Hospital AI home">
+        <span class="brand-symbol" data-icon="heart-pulse"></span>
+        <span class="brand-name">hospital<span>ai</span><b>.</b><small>YOUR DIGITAL CARE COMPANION</small></span>
+      </a>
+      <div class="sidebar-section">
+        <p class="sidebar-caption">YOUR ASSISTANT</p>
+        <button type="button" class="new-chat-btn" onclick="startNewChat()"><span data-icon="plus"></span> New conversation <span data-icon="arrow-up-right" class="new-chat-arrow"></span></button>
+        <p class="sidebar-caption tools-caption">QUICK TOOLS</p>
+        <nav class="patient-tools" aria-label="Appointment shortcuts">
+          <button type="button" data-panel="appointment-panel" onclick="openAppointmentForm()"><span data-icon="calendar-plus"></span> Book an appointment <span data-icon="chevron-right"></span></button>
+          <button type="button" data-panel="appointment-status-panel" onclick="openAppointmentStatusForm()"><span data-icon="clipboard-list"></span> Check appointment <span data-icon="chevron-right"></span></button>
+          <button type="button" data-panel="reschedule-appointment-panel" onclick="openRescheduleAppointmentForm()"><span data-icon="calendar-clock"></span> Reschedule visit <span data-icon="chevron-right"></span></button>
+          <button type="button" data-panel="cancel-appointment-panel" onclick="openCancelAppointmentForm()"><span data-icon="calendar-x"></span> Cancel appointment <span data-icon="chevron-right"></span></button>
+          <button type="button" data-panel="support-panel" onclick="openSupportForm()"><span data-icon="headset"></span> Contact reception <span data-icon="chevron-right"></span></button>
+        </nav>
+      </div>
+      <div class="patient-sidebar-bottom">
+        <div class="sidebar-help-icon" data-icon="shield-alert"></div>
+        <strong>Need urgent medical help?</strong>
+        <p>This assistant is not an emergency service. Contact local emergency services for immediate assistance.</p>
+      </div>
+      <div class="sidebar-footer"><span data-icon="sparkles"></span> Powered by Hospital AI</div>
+    </aside>
+    <div class="patient-sidebar-overlay" id="patient-sidebar-overlay" hidden></div>
+    <main class="patient-main">
+      <header class="patient-topbar">
+        <div class="patient-topbar-left">
+          <button type="button" class="patient-icon-btn patient-menu-toggle" id="patient-menu-toggle" aria-label="Open menu" aria-expanded="false"><span data-icon="menu"></span></button>
+          <div class="assistant-avatar" data-icon="heart-pulse"></div>
+          <div><h1>Hospital AI Assistant</h1><p><span class="assistant-status-dot"></span> Virtual care assistant <span class="topbar-divider"></span> <span class="language-availability">Available in English & Urdu</span></p></div>
+        </div>
+        <div class="patient-topbar-right"><button type="button" class="patient-icon-btn" id="patient-help-toggle" title="Appointment tools" aria-label="Open appointment tools"><span data-icon="layout-panel-right"></span></button><span class="ai-pill"><span data-icon="sparkles"></span> AI ASSISTED</span></div>
+      </header>
+      <div class="patient-workspace">
+        <section class="conversation-panel" aria-label="Conversation with the hospital assistant">
+          <div class="conversation-topline"><div><span class="conversation-tag"><span data-icon="message-circle"></span> Conversation</span><span class="conversation-date" id="conversation-date">Today</span></div><span class="conversation-safety"><span data-icon="shield-check"></span> General information only</span></div>
+          <div class="conversation-body" id="conversation-body">
+            <div id="chat-empty-state" class="chat-empty-state">
+              <div class="welcome-symbol" data-icon="heart-pulse"></div>
+              <span class="welcome-tag"><span data-icon="sparkles"></span> YOUR VIRTUAL HOSPITAL ASSISTANT</span>
+              <h2>Here to help you<br><em>feel cared for.</em></h2>
+              <p>Ask about doctors, appointment availability, lab tests, or hospital services. Start with whatever is on your mind.</p>
+              <div class="welcome-actions">
+                <button type="button" onclick="sendQuickMessage('I want to book an appointment')"><span data-icon="calendar-days"></span> Book a visit</button>
+                <button type="button" onclick="sendQuickMessage('Show me available doctors')"><span data-icon="stethoscope"></span> Find a doctor</button>
+                <button type="button" onclick="sendQuickMessage('What are your hospital timings?')"><span data-icon="clock"></span> Hospital timings</button>
+                <button type="button" onclick="sendQuickMessage('How can I contact reception?')"><span data-icon="headset"></span> Ask reception</button>
+              </div>
+            </div>
+            <div id="chat-box" class="chat-box" role="log" aria-label="Chat messages" aria-live="polite" aria-relevant="additions"></div>
+            <div id="assistant-typing" class="assistant-typing" hidden><span class="typing-avatar" data-icon="heart-pulse"></span><span class="typing-dots"><i></i><i></i><i></i></span><span>Assistant is thinking...</span></div>
+          </div>
+          <div class="quick-prompt-wrap"><span class="quick-prompt-label">Try asking</span><div class="quick-buttons">
+            <button type="button" onclick="sendQuickMessage('Hi')">Say hello</button>
+            <button type="button" onclick="sendQuickMessage('Show me doctors')">Find doctors</button>
+            <button type="button" onclick="sendQuickMessage('Book appointment')">Book a visit</button>
+            <button type="button" onclick="sendQuickMessage('CBC test price')">Lab test fees</button>
+            <button type="button" onclick="sendQuickMessage('Talk to reception')">Reception</button>
+          </div></div>
+          <div class="composer-area"><div class="composer"><input id="message-input" type="text" placeholder="Ask me anything about your care..." maxlength="2000" autocomplete="off" aria-label="Your message" onkeydown="handleEnter(event)"><button type="button" class="send-btn" id="chat-send-button" onclick="sendMessage()" aria-label="Send message"><span>Send</span><span data-icon="arrow-up"></span></button></div>
+            <div class="composer-footnote"><span data-icon="info"></span> AI information is not a medical diagnosis. For emergencies, seek immediate care.</div>
+          </div>
+        </section>
+        <aside class="forms-container" id="patient-tools-panel" aria-label="Appointment and support forms">
+          <div class="form-panel-top"><div><span class="form-panel-eyebrow">PATIENT SERVICES</span><h2>Care tools</h2><p>Manage appointments and connect with reception.</p></div><button type="button" class="patient-icon-btn close-form-panel" id="close-form-panel" aria-label="Close tools"><span data-icon="x"></span></button></div>
+          <div class="tools-empty-state" id="tools-empty-state"><div class="tools-empty-symbol" data-icon="calendar-heart"></div><h3>Care made simpler.</h3><p>Choose an action to manage your hospital visit without leaving the conversation.</p><button type="button" class="tools-empty-cta" onclick="openAppointmentForm()">Book an appointment <span data-icon="arrow-right"></span></button>
+            <div class="tools-mini-list"><span><span data-icon="circle-check"></span> Schedule visits</span><span><span data-icon="circle-check"></span> Check booking details</span><span><span data-icon="circle-check"></span> Get reception support</span></div>
+          </div>
+            <div id="appointment-panel" class="panel hidden">
+                <h3>Book an appointment</h3><p class="panel-desc">Choose a doctor and available time, then enter your details.</p>
+
+                <label for="booking-doctor">Doctor</label>
+                <select id="booking-doctor"></select>
+
+                <label for="booking-date">Date</label>
+                <input type="date" id="booking-date">
+
+                <button onclick="loadAvailableSlots()">Check Available Slots</button>
+
+                <div id="available-slots"></div>
+
+                <input type="hidden" id="selected-slot">
+
+                <label for="patient-name">Patient Name</label>
+                <input type="text" id="patient-name" placeholder="Enter patient name">
+
+                <label for="patient-phone">Phone Number</label>
+                <input type="text" id="patient-phone" placeholder="Enter phone number">
+
+                <label for="patient-email">Email Optional</label>
+                <input type="email" id="patient-email" placeholder="Enter email">
+
+                <label for="appointment-reason">Reason Optional</label>
+                <input type="text" id="appointment-reason" placeholder="Reason for visit">
+
+                <button onclick="bookAppointment()">Book Appointment</button>
+
+                <p id="booking-message"></p>
+                <div id="appointment-confirmation"></div>
+            </div>
+
+            <div id="appointment-status-panel" class="panel hidden">
+                <h3>Appointment status</h3><p class="panel-desc">Look up your booking details using the appointment ID and phone number.</p>
+
+                <label for="status-appointment-id">Appointment ID</label>
+                <input type="number" id="status-appointment-id" placeholder="Enter appointment ID">
+
+                <label for="status-patient-phone">Phone Number</label>
+                <input type="text" id="status-patient-phone" placeholder="Enter phone number">
+
+                <button onclick="checkPublicAppointmentStatus()">Check Status</button>
+
+                <p id="status-message"></p>
+                <div id="status-confirmation"></div>
+            </div>
+
+            <div id="cancel-appointment-panel" class="panel hidden">
+                <h3>Cancel an appointment</h3><p class="panel-desc">Review your information carefully before requesting cancellation.</p>
+
+                <label for="cancel-appointment-id">Appointment ID</label>
+                <input type="number" id="cancel-appointment-id" placeholder="Enter appointment ID">
+
+                <label for="cancel-patient-phone">Phone Number</label>
+                <input type="text" id="cancel-patient-phone" placeholder="Enter phone number">
+
+                <button onclick="cancelPublicAppointment()">Cancel Appointment</button>
+
+                <p id="cancel-message"></p>
+                <div id="cancel-confirmation"></div>
+            </div>
+
+            <div id="reschedule-appointment-panel" class="panel hidden">
+                <h3>Reschedule an appointment</h3><p class="panel-desc">Find another available time for an existing booking.</p>
+
+                <label for="reschedule-appointment-id">Appointment ID</label>
+                <input type="number" id="reschedule-appointment-id" placeholder="Enter appointment ID">
+
+                <label for="reschedule-patient-phone">Phone Number</label>
+                <input type="text" id="reschedule-patient-phone" placeholder="Enter phone number">
+
+                <label for="reschedule-doctor">New Doctor</label>
+                <select id="reschedule-doctor"></select>
+
+                <label for="reschedule-date">New Date</label>
+                <input type="date" id="reschedule-date">
+
+                <button onclick="loadRescheduleAvailableSlots()">Check New Slots</button>
+
+                <div id="reschedule-available-slots"></div>
+
+                <input type="hidden" id="reschedule-selected-slot">
+
+                <button onclick="reschedulePublicAppointment()">Reschedule Appointment</button>
+
+                <p id="reschedule-message"></p>
+                <div id="reschedule-confirmation"></div>
+            </div>
+
+            <div id="support-panel" class="panel hidden">
+                <h3>Contact reception</h3><p class="panel-desc">Leave a support request for the hospital team.</p>
+
+                <label for="lead-name">Name</label>
+                <input type="text" id="lead-name" placeholder="Enter your name">
+
+                <label for="lead-phone">Phone Number</label>
+                <input type="text" id="lead-phone" placeholder="Enter your phone number">
+
+                <label for="lead-question">Your Question</label>
+                <input type="text" id="lead-question" placeholder="What do you need help with?">
+
+                <label for="lead-service">Interested Service Optional</label>
+                <input type="text" id="lead-service" placeholder="Doctor, lab test, department, etc.">
+
+                <button onclick="submitPatientLead()">Submit Request</button>
+
+                <p id="lead-message"></p>
+                <div id="lead-confirmation"></div>
+            </div>
+
+        </aside>
+      </div>
+    </main>
+  </div>
+  <div class="mobile-tool-overlay" id="mobile-tool-overlay" hidden></div>
+  <script src="config.js"></script>
+  <script src="app.js?v=20261012-1"></script>
+  <script src="ui.js?v=20261027"></script>
+</body>
+</html>

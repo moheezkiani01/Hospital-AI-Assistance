@@ -1,0 +1,47 @@
+# One command to run everything locally:
+#
+#   cp backend/.env.example backend/.env      # then fill in SECRET_KEY + at least one LLM key
+#   docker compose up --build
+#   docker compose exec api python scripts/create_admin.py --email you@example.org --hospital-name "My Hospital"
+#
+#   Patient chat      http://127.0.0.1:5600
+#   Admin dashboard   http://127.0.0.1:5500
+#   API + docs        http://127.0.0.1:8000/docs
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    env_file:
+      - backend/.env
+    environment:
+      # Keep the database and uploads on volumes so they survive rebuilds.
+      DATABASE_URL: sqlite:////app/backend/data/hospital_ai.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - api_data:/app/backend/data
+      - api_uploads:/app/backend/app/uploads
+    restart: unless-stopped
+
+  admin:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./frontend/admin-dashboard:/usr/share/nginx/html:ro
+    ports:
+      - "5500:80"
+    depends_on:
+      - api
+
+  patient-chat:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./frontend/patient-chat:/usr/share/nginx/html:ro
+    ports:
+      - "5600:80"
+    depends_on:
+      - api
+
+volumes:
+  api_data:
+  api_uploads:

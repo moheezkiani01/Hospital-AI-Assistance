@@ -1,0 +1,23 @@
+# Web / API
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+
+# Database (SQLite works out of the box; psycopg2 is for PostgreSQL)
+sqlalchemy>=2.0
+psycopg2-binary>=2.9
+
+# Settings / validation
+pydantic>=2.6
+pydantic-settings>=2.2
+python-dotenv>=1.0
+
+# Auth (keep this passlib/bcrypt pair: newer bcrypt breaks passlib 1.7.4)
+passlib==1.7.4
+bcrypt==4.0.1
+python-jose[cryptography]>=3.3
+
+# Documents + HTTP
+pypdf>=4.0
+python-docx>=1.1
+requests>=2.31

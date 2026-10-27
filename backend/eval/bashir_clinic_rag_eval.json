@@ -1,0 +1,150 @@
+[
+  {
+    "id": "skin-prick-duration-roman",
+    "question": "allergy wala skin test karwany me kitna waqt lagta ha?",
+    "expected_answerable": true,
+    "expected_any": [
+      "30 to 45 minutes"
+    ]
+  },
+  {
+    "id": "skin-prick-result-english",
+    "question": "Do I get the skin prick result on another day?",
+    "expected_answerable": true,
+    "expected_any": [
+      "same visit"
+    ]
+  },
+  {
+    "id": "ige-turnaround-roman",
+    "question": "blood allergy ka result kb tk aa jata ha?",
+    "expected_answerable": true,
+    "expected_any": [
+      "2 to 3 business days"
+    ]
+  },
+  {
+    "id": "sendout-turnaround",
+    "question": "What if my allergy blood test has to be sent outside?",
+    "expected_answerable": true,
+    "expected_any": [
+      "5 to 10 business days"
+    ]
+  },
+  {
+    "id": "patch-shower-roman",
+    "question": "patch lagy hon to naha skta hu?",
+    "expected_answerable": true,
+    "expected_any": [
+      "kept dry"
+    ]
+  },
+  {
+    "id": "patch-duration",
+    "question": "How many days does the contact allergy patch process take?",
+    "expected_answerable": true,
+    "expected_any": [
+      "4 to 7 days"
+    ]
+  },
+  {
+    "id": "injection-observation-roman",
+    "question": "allergy injection ke bad clinic me kitni der rukna hoga?",
+    "expected_answerable": true,
+    "expected_any": [
+      "at least 30 minutes"
+    ]
+  },
+  {
+    "id": "injection-exercise-roman",
+    "question": "injection lgny k bad gym ja skta hu?",
+    "expected_answerable": true,
+    "expected_any": [
+      "2 hours"
+    ]
+  },
+  {
+    "id": "spirometry-duration",
+    "question": "breathing wala lung test kitni der leta hai?",
+    "expected_answerable": true,
+    "expected_any": [
+      "20 to 30 minutes"
+    ]
+  },
+  {
+    "id": "late-arrival",
+    "question": "If I reach 20 minutes late will my appointment still be normal?",
+    "expected_answerable": true,
+    "expected_any": [
+      "more than 15 minutes late"
+    ]
+  },
+  {
+    "id": "cancel-notice",
+    "question": "appointment cancel krni ho to kitni dair pehle btana chahiye?",
+    "expected_answerable": true,
+    "expected_any": [
+      "At least 12 hours"
+    ]
+  },
+  {
+    "id": "emergency-capability",
+    "question": "Is this clinic a full emergency department?",
+    "expected_answerable": true,
+    "expected_any": [
+      "not a full emergency department"
+    ]
+  },
+  {
+    "id": "teleconsult-first-severe",
+    "question": "Can a first severe allergic reaction be handled on video consultation?",
+    "expected_answerable": true,
+    "expected_any": [
+      "require in-person assessment"
+    ]
+  },
+  {
+    "id": "positive-test-meaning",
+    "question": "positive allergy test ka matlab pakka allergy hoti ha?",
+    "expected_answerable": true,
+    "expected_any": [
+      "positive test shows sensitization"
+    ]
+  },
+  {
+    "id": "helicopter-unsupported",
+    "question": "clinic helicopter ambulance provide krti ha?",
+    "expected_answerable": false,
+    "expected_any": []
+  },
+  {
+    "id": "mri-unsupported",
+    "question": "MRI report kitni der me milti hai?",
+    "expected_answerable": false,
+    "expected_any": []
+  },
+  {
+    "id": "dialysis-unsupported",
+    "question": "Do you have dialysis machines?",
+    "expected_answerable": false,
+    "expected_any": []
+  },
+  {
+    "id": "dental-surgery-unsupported",
+    "question": "wisdom tooth surgery ki fee kya hai?",
+    "expected_answerable": false,
+    "expected_any": []
+  },
+  {
+    "id": "ct-scan-unsupported",
+    "question": "CT scan 24 hours available hai?",
+    "expected_answerable": false,
+    "expected_any": []
+  },
+  {
+    "id": "blood-bank-unsupported",
+    "question": "blood bank ka timing kya hai?",
+    "expected_answerable": false,
+    "expected_any": []
+  }
+]
