@@ -1,8 +1,0 @@
-Quick commands (see README.md for the full guide)
-
-Backend (from backend/):      python -m uvicorn app.main:app --reload
-Admin dashboard:              cd frontend/admin-dashboard && python -m http.server 5500
-Patient chat:                 cd frontend/patient-chat    && python -m http.server 5600
-Create the first admin:       cd backend && python scripts/create_admin.py --email you@example.org --hospital-name "My Hospital"
-
-Do NOT store passwords in this file or anywhere in the repository.
